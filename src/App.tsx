@@ -14,12 +14,11 @@ export interface Props {
 export interface State {
     username: string;
     password: string;
+    onChangeUsername: (event: React.FormEvent<HTMLInputElement>) => void;
+    onChangePassword: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
-class App extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-    }
+class App extends React.Component {
 
   render() {
     return (
@@ -31,13 +30,7 @@ class App extends React.Component<Props, State> {
         <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
-          <LoginComponent
-              username={this.props.username}
-              password={this.props.password}
-              onChangeUsername={this.props.onChangeUsername}
-              onChangePassword={this.props.onChangePassword}
-          />
-
+          <LoginComponent />
       </div>
     );
   }
