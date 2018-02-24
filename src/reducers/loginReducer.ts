@@ -1,15 +1,7 @@
 import { LOGIN_USER, UPDATE_PASSWORD, UPDATE_USERNAME } from '../constants';
 import { LoginObject } from '../objects/loginObject';
 
-// interface LoginState  {
-//     roles: Array<string>;
-//     username: string;
-//     password: string;
-//     token: string;
-//     type: string;
-// }
-
-const loginReducer = (state = {username: 'jjj', password: ''}, login: LoginObject) => {
+const loginReducer = (state = {username: '', password: ''}, login: LoginObject) => {
     switch (login.type) {
         case LOGIN_USER:
             // some thunk thing
