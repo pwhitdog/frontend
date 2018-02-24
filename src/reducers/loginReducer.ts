@@ -1,31 +1,25 @@
-import { LoginObject } from '../objects/loginObject';
+import { LOGIN_USER, UPDATE_PASSWORD, UPDATE_USERNAME } from '../constants';
 
 interface LoginState  {
     roles: Array<string>;
     username: string;
     password: string;
     token: string;
+    type: string;
 }
 
-const initialLoginState: LoginState = {
-    roles: [],
-    username: '',
-    password: '',
-    token: '',
-};
-
-const loginReducer = (state: LoginState = initialLoginState, loginObject: LoginObject) => {
-    switch (loginObject.action) {
-        case 'LOGIN':
+const loginReducer = (state = {}, login: LoginState) => {
+    switch (login.type) {
+        case LOGIN_USER:
             // some thunk thing
             return state;
-        case 'UPDATE_USERNAME':
+        case UPDATE_USERNAME:
             return {
-                ...state, loginObject
+                ...state, login
             };
-        case 'UPDATE_PASSWORD':
+        case UPDATE_PASSWORD:
             return {
-                ...state, loginObject
+                ...state, login
             };
         default:
             return state;

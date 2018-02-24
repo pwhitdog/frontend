@@ -1,15 +1,7 @@
-export const onChangeUsername = (username: string, password: string) => {
+export const onChangeLogin = (obj: {username: string, password: string, type: string}) => {
     return {
-            action: 'UPDATE_USERNAME',
-            username,
-            password
-    };
-};
-
-export const onChangePassword = (username: string, password: string) => {
-    return {
-            action: 'UPDATE_PASSWORD',
-            username,
-            password
+            type: obj.type,
+            username: obj.username,
+            password: obj.password
     };
 };
