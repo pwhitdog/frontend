@@ -3,6 +3,7 @@ import './App.css';
 import LoginComponent from './pages/login/LoginComponent';
 
 const logo = require('./logo.svg');
+
 export interface Props {
     username: string;
     password: string;
@@ -18,14 +19,6 @@ export interface State {
 class App extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-    }
-
-    onChange = (event: React.FormEvent<HTMLInputElement>) => {
-        let name = event.currentTarget.value;
-        this.setState(prevState => ({
-            username: name
-        }));
-
     }
 
   render() {

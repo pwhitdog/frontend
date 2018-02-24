@@ -2,7 +2,7 @@ import { connect, Dispatch } from 'react-redux';
 import { loginAction, onChangeUsername, onChangePassword } from '../../actions/loginAction';
 import { bindActionCreators } from 'redux';
 import { LoginObject } from '../../objects/loginObject';
-import App from '../../App';
+import LoginComponent from './LoginComponent';
 
 interface State {
     loginObject: LoginObject;
@@ -26,4 +26,4 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>) => {
     };
 };
 
-connect(mapStateToProps, mapDispatchToProps)(App);
+connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
