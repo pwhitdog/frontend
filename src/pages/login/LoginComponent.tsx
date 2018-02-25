@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { onChangePassword, onChangeUsername } from '../../actions/loginAction';
+import { onChangePassword, onChangeUsername, onLogin } from '../../actions/loginAction';
 import { UPDATE_PASSWORD, UPDATE_USERNAME } from '../../constants';
 
 interface LoginProps {
@@ -14,12 +14,16 @@ interface LoginProps {
             => {type: string, username: string};
         onChangePassword: (obj: {password: string, type: string})
             => {type: string, password: string};
+        onLogin: (obj: {username: string, password: string})
+            => () => void;
     };
 }
 
 interface State {
-    username: string;
-    password: string;
+    login: {
+        username: string;
+        password: string;
+    };
 }
 
 const LoginComponent: React.SFC<LoginProps> = (props: LoginProps) => {
@@ -32,8 +36,13 @@ const LoginComponent: React.SFC<LoginProps> = (props: LoginProps) => {
         props.actions.onChangePassword({password: event.currentTarget.value, type: UPDATE_PASSWORD});
     };
 
+    const login = () => {
+        props.actions.onLogin({username: props.usernameAndPassword.username,
+            password: props.usernameAndPassword.password});
+    };
+
     return (
-        <div className="App">
+        <div className="jumbotron">
             <h1 className="App-title">Login MOFO</h1>
             <label>Email</label>
             <input
@@ -47,14 +56,14 @@ const LoginComponent: React.SFC<LoginProps> = (props: LoginProps) => {
                 type="password"
                 onChange={changePassword}
             />
-            {/*<button onClick={this.onClickSave}>Login</button>*/}
+            <button onClick={login}>Login</button>
         </div>
     );
 };
 
 const mapStateToProps = (state: State) => {
     return {
-        usernameAndPassword: {username: state.username, password: state.password}
+        usernameAndPassword: {username: state.login.username, password: state.login.password}
     };
 };
 
@@ -63,6 +72,7 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>) => {
         actions: bindActionCreators({
             onChangePassword,
             onChangeUsername,
+            onLogin
         },                          dispatch)
     };
 };
