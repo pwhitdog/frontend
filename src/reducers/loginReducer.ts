@@ -9,8 +9,7 @@ const loginReducer = (state = {}, login: LoginObject) => {
         case UPDATE_USERNAME:
             return Object.assign({}, state, login);
         case UPDATE_PASSWORD:
-            let tmp = Object.assign({}, state, login);
-            return tmp;
+            return Object.assign({}, state, login);
         case SET_TOKEN:
             return Object.assign({}, state, login);
         default:

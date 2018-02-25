@@ -5,10 +5,9 @@ import { onChangePassword, onChangeUsername, onLogin } from '../../actions/login
 import { UPDATE_PASSWORD, UPDATE_USERNAME } from '../../constants';
 
 interface LoginProps {
-    usernameAndPassword: {
-        username: string;
-        password: string;
-    };
+
+    username: string;
+    password: string;
     actions: {
         onChangeUsername: (obj: {username: string, type: string})
             => {type: string, username: string};
@@ -37,8 +36,8 @@ const LoginComponent: React.SFC<LoginProps> = (props: LoginProps) => {
     };
 
     const login = () => {
-        props.actions.onLogin({username: props.usernameAndPassword.username,
-            password: props.usernameAndPassword.password});
+        props.actions.onLogin({username: props.username,
+            password: props.password});
     };
 
     return (
@@ -46,13 +45,13 @@ const LoginComponent: React.SFC<LoginProps> = (props: LoginProps) => {
             <h1 className="App-title">Login MOFO</h1>
             <label>Email</label>
             <input
-                value={props.usernameAndPassword.username}
+                value={props.username}
                 type="text"
                 onChange={changeUsername}
             />
             <label>Password</label>
             <input
-                value={props.usernameAndPassword.password}
+                value={props.password}
                 type="password"
                 onChange={changePassword}
             />
@@ -63,7 +62,8 @@ const LoginComponent: React.SFC<LoginProps> = (props: LoginProps) => {
 
 const mapStateToProps = (state: State) => {
     return {
-        usernameAndPassword: {username: state.login.username, password: state.login.password}
+        username: state.login.username,
+        password: state.login.password
     };
 };
 

@@ -30,7 +30,7 @@ export const onLogin = (obj: {password: string, username: string}) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({email: 'admin@nope.com', password: 'herpDerp1!'})
+            body: JSON.stringify({email: obj.username, password: obj.password})
         })
             .then(res => res.json())
             .then(body => {
