@@ -1,5 +1,4 @@
-import { GET_USER, SET_TOKEN } from '../constants';
-import { Dispatch } from 'react-redux';
+import { HANDLE_ERROR, SET_TOKEN } from '../constants';
 
 export const onChangeUsername = (obj: {username: string, type: string}) => {
     return {
@@ -15,15 +14,8 @@ export const onChangePassword = (obj: {password: string, type: string}) => {
     };
 };
 
-export const getUser = () => {
-    return {
-        type: GET_USER
-    };
-};
-
 export const onLogin = (obj: {password: string, username: string}) => {
-    let dispatch: Dispatch<{}>;
-    return dispatch = () => {
+    return (dispatch: (obj: {type: string, token: string, error: string}) => void) => {
         fetch('http://localhost:5000/api/Account/Login', {
             method: 'post',
             headers: {
@@ -35,9 +27,18 @@ export const onLogin = (obj: {password: string, username: string}) => {
             .then(res => res.json())
             .then(body => {
                 return dispatch({
-                    type: SET_TOKEN,
-                    token: body ? body.toString() : ''
+                        type: SET_TOKEN,
+                        token: body ? body.toString() : '',
+                        error: ''
+                    }
+                );
+            })
+            .catch(error => {
+                return dispatch({
+                    type: HANDLE_ERROR,
+                    token: '',
+                    error: error.toString()
                 });
-        });
+            });
     };
 };
