@@ -3,4 +3,6 @@ export interface LoginObject {
     password: string;
     type: string;
     token: string;
+    roles: Array<string>;
+    isLoggedIn: boolean;
 }

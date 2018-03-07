@@ -1,4 +1,5 @@
-import { HANDLE_ERROR, SET_TOKEN } from '../constants';
+import { HANDLE_ERROR, LOGOUT, SET_TOKEN } from '../constants';
+import { LoginResponse } from '../objects/loginResponseObject';
 
 export const onChangeUsername = (obj: {username: string, type: string}) => {
     return {
@@ -14,8 +15,15 @@ export const onChangePassword = (obj: {password: string, type: string}) => {
     };
 };
 
+export const onLogout = () => {
+    return {
+        type: LOGOUT
+    };
+};
+
 export const onLogin = (obj: {password: string, username: string}) => {
-    return (dispatch: (obj: {type: string, token: string, error: string}) => void) => {
+    return (dispatch: (obj:
+               {type: string, token: string, error: string, roles: Array<string>, isLoggedIn: boolean}) => void) => {
         fetch('http://localhost:5000/api/Account/Login', {
             method: 'post',
             headers: {
@@ -26,10 +34,13 @@ export const onLogin = (obj: {password: string, username: string}) => {
         })
             .then(res => res.json())
             .then(body => {
+                let loginResponse: LoginResponse = JSON.parse(body);
                 return dispatch({
                         type: SET_TOKEN,
-                        token: body ? body.toString() : '',
-                        error: ''
+                        token: loginResponse.Token,
+                        roles: loginResponse.Roles,
+                        error: '',
+                        isLoggedIn: true
                     }
                 );
             })
@@ -37,7 +48,9 @@ export const onLogin = (obj: {password: string, username: string}) => {
                 return dispatch({
                     type: HANDLE_ERROR,
                     token: '',
-                    error: error.toString()
+                    error: error.toString(),
+                    roles: [],
+                    isLoggedIn: false
                 });
             });
     };

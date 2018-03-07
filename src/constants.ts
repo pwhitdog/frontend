@@ -4,3 +4,4 @@ export const GET_USER = 'GET_USER';
 export const SET_TOKEN = 'SET_TOKEN';
 export const LOGOUT = 'LOGOUT';
 export const HANDLE_ERROR = 'HANDLE_ERROR';
+export const LOGIN_INFORMATION = 'LOGIN_INFORMATION';
