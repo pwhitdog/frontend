@@ -4,18 +4,19 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import NavbarComponent from './pages/navbar/NavbarComponent';
 import { BrowserRouter } from 'react-router-dom';
 import HomeComponent from './pages/home/HomeComponent';
-import LoginPage from './pages/login/LoginPage';
 import { Route, Switch } from 'react-router';
+import LoginComponent from './pages/login/LoginComponent';
+import RegisterComponent from './pages/register/RegisterComponent';
 
 const App = () =>  (
     <BrowserRouter>
         <div>
-            <NavbarComponent/>
+            <NavbarComponent />
 
             <Switch>
                 <Route exact={true} path="/" component={HomeComponent} />
-                <Route path="/login" compnent={LoginPage}/>
-                <Route path="/register" compnent={LoginPage}/>
+                <Route path="/login" component={LoginComponent}/>
+                <Route path="/register" component={RegisterComponent}/>
             </Switch>
         </div>
     </BrowserRouter>

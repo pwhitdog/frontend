@@ -3,7 +3,6 @@ import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { onChangePassword, onChangeUsername, onLogin, onLogout } from '../../actions/loginAction';
 import { UPDATE_PASSWORD, UPDATE_USERNAME } from '../../constants';
-import { push } from 'react-router-redux';
 
 interface LoginProps {
     username: string;
@@ -40,14 +39,9 @@ const LoginComponent = (props: LoginProps) => {
         props.actions.onChangePassword({password: event.currentTarget.value, type: UPDATE_PASSWORD});
     };
 
-    const logout = () => {
-        props.actions.onLogout();
-    };
-
     const login = () => {
-        props.actions.onLogin({username: props.username,
-            password: props.password});
-
+        props.actions.onLogin({username: props.username, password: props.password});
+        window.location.assign('/');
     };
 
     return (
@@ -74,14 +68,13 @@ const LoginComponent = (props: LoginProps) => {
                 />
             </div>
             <button onClick={login} className="btn btn-primary float-left mt-2">Login</button>
-            <button onClick={logout} className="btn btn-primary float-left mt-2">Logout</button>
         </div>
     );
 };
 
 const mapStateToProps = (state: State) => {
     if (state.login.isLoggedIn) {
-        push('/home');
+        window.location.assign('/');
     }
     return {
         username: state.login.username,

@@ -21,6 +21,10 @@ export const onLogout = () => {
     };
 };
 
+export const onRegister = (obj: {password: string, username: string}) => {
+    return;
+};
+
 export const onLogin = (obj: {password: string, username: string}) => {
     return (dispatch: (obj:
                {type: string, token: string, error: string, roles: Array<string>, isLoggedIn: boolean}) => void) => {

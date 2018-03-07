@@ -23,9 +23,13 @@ interface State {
 
 const NavbarComponent: React.SFC<Props> = (props: Props) => {
     const loggedIn = (
-        <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-            <li className="nav-item">{props.username}</li>
-            <li className="nav-item"><button onClick={props.actions.onLogout}>Logout</button></li>
+        <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex float-right">
+            <li className="nav-item ml-2">
+                <span className="nav-link">{props.username}</span>
+            </li>
+            <li className="nav-item ml-2">
+                <a className="nav-link" onClick={props.actions.onLogout}>Logout</a>
+            </li>
         </ul>
     );
 
