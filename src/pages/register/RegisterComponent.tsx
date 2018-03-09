@@ -53,12 +53,16 @@ const RegisterComponent = (props: Props) => {
             if (props.password1 === props.password2) {
                 props.actions.onRegister({password: props.password1, username: props.username});
             }
+
+            window.location.assign('/');
         }
     };
 
     return (
         <div className="container">
-            <h3>Register</h3>
+            <div className="row mt-2">
+                <h3>Register</h3>
+            </div>
             <div className="row">
                 <label htmlFor="username">Email</label>
                 <input
@@ -86,7 +90,9 @@ const RegisterComponent = (props: Props) => {
                     onChange={changePassword2}
                 />
             </div>
-            <button className="btn btn-primary" onClick={register}>Register</button>
+            <div className="row">
+                <button className="btn btn-outline-primary mt-2" onClick={register}>Register</button>
+            </div>
         </div>
     );
 };

@@ -46,7 +46,10 @@ const LoginComponent = (props: LoginProps) => {
 
     return (
         <div className="container">
-            <h3>Login</h3>
+            <div className="row mt-2">
+                <h3>Login</h3>
+            </div>
+
             <div className="row">
                 <label htmlFor="username">Email</label>
                 <input
@@ -67,7 +70,9 @@ const LoginComponent = (props: LoginProps) => {
                     className="form-control"
                 />
             </div>
-            <button onClick={login} className="btn btn-primary float-left mt-2">Login</button>
+            <div className="row">
+                <button onClick={login} className="btn btn-outline-primary float-left mt-2">Login</button>
+            </div>
         </div>
     );
 };
