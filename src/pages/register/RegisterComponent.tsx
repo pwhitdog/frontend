@@ -1,129 +1,112 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
-import { onRegister } from '../../actions/loginAction';
+import { onChangePassword1, onChangePassword2, onChangeUsername, onRegister } from '../../actions/registerAction';
 import { bindActionCreators } from 'redux';
+import { UPDATE_PASSWORD1, UPDATE_PASSWORD2, UPDATE_USERNAME } from '../../constants';
 
 interface Props {
     username: string;
     password1: string;
     password2: string;
     error: string;
-    isLoggedIn: boolean;
     actions: {
         onRegister: (obj: {username: string, password: string})
-            => () => void;
+            => void;
+        onChangeUsername: (obj: {username: string, type: string})
+            => {type: string, username: string};
+        onChangePassword1: (obj: {password1: string, type: string})
+            => {password1: string, type: string};
+        onChangePassword2: (obj: {password2: string, type: string})
+            => {password2: string, type: string};
     };
 }
 
 interface State {
-    username: string;
-    password1: string;
-    password2: string;
-    error: string;
-    isLoggedIn: boolean;
+    register: {
+        username: string;
+        password1: string;
+        password2: string;
+        error: string;
+    };
 }
 
-class RegisterComponent extends React.Component<Props, State> {
+const RegisterComponent = (props: Props) => {
 
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-          username: '',
-          password1: '',
-          password2: '',
-          error: '',
-          isLoggedIn: false
-        };
-
-        this.changeUsername = this.changeUsername.bind(this);
-        this.changePassword1 = this.changePassword1.bind(this);
-        this.changePassword2 = this.changePassword2.bind(this);
-        this.register = this.register.bind(this);
-    }
-
-    changeUsername(event: React.FormEvent<HTMLInputElement>) {
+    const changeUsername = (event: React.FormEvent<HTMLInputElement>) => {
         let username = event.currentTarget.value;
-        this.setState(prevState => ({
-            username
-        }));
-    }
+        props.actions.onChangeUsername({username, type: UPDATE_USERNAME});
+    };
 
-    changePassword1(event: React.FormEvent<HTMLInputElement>) {
+    const changePassword1 = (event: React.FormEvent<HTMLInputElement>) => {
         let password1 = event.currentTarget.value;
-        this.setState(prevState => ({
-            password1
-        }));
-    }
+        props.actions.onChangePassword1({password1: password1, type: UPDATE_PASSWORD1});
+    };
 
-    changePassword2(event: React.FormEvent<HTMLInputElement>) {
+    const changePassword2 = (event: React.FormEvent<HTMLInputElement>) => {
         let password2 = event.currentTarget.value;
-        this.setState(prevState => ({
-            password2
-        }));
-    }
+        props.actions.onChangePassword2({password2: password2, type: UPDATE_PASSWORD2});
 
-    register() {
-        if (this.state.username !== '' && this.state.password1 !== '' && this.state.password2 !== '') {
-            if (this.state.password1 === this.state.password2) {
-                this.props.actions.onRegister({username: this.state.username, password: this.state.password1});
+    };
+
+    const register = () => {
+        if (props.username !== '' && props.password1 !== '' && props.password2 !== '') {
+            if (props.password1 === props.password2) {
+                props.actions.onRegister({password: props.password1, username: props.username});
             }
         }
-    }
+    };
 
-    render() {
-        return (
-            <div className="container">
-                <h3>Register</h3>
-                <div className="row">
-                    <label htmlFor="username">Email</label>
-                    <input
-                        id="username"
-                        type="text"
-                        className="form-control"
-                        onChange={this.changeUsername}
-                    />
-                </div>
-                <div className="row">
-                    <label htmlFor="password1">Password</label>
-                    <input
-                        id="password1"
-                        type="password"
-                        className="form-control"
-                        onChange={this.changePassword1}
-                    />
-                </div>
-                <div className="row">
-                    <label htmlFor="password2">Password</label>
-                    <input
-                        id="password2"
-                        type="password"
-                        className="form-control"
-                        onChange={this.changePassword2}
-                    />
-                </div>
-                <button className="btn btn-primary" onClick={this.register}>Register</button>
+    return (
+        <div className="container">
+            <h3>Register</h3>
+            <div className="row">
+                <label htmlFor="username">Email</label>
+                <input
+                    id="username"
+                    type="text"
+                    className="form-control"
+                    onChange={changeUsername}
+                />
             </div>
-        );
-    }
-}
+            <div className="row">
+                <label htmlFor="password1">Password</label>
+                <input
+                    id="password1"
+                    type="password"
+                    className="form-control"
+                    onChange={changePassword1}
+                />
+            </div>
+            <div className="row">
+                <label htmlFor="password2">Password</label>
+                <input
+                    id="password2"
+                    type="password"
+                    className="form-control"
+                    onChange={changePassword2}
+                />
+            </div>
+            <button className="btn btn-primary" onClick={register}>Register</button>
+        </div>
+    );
+};
 
 const mapStateToProps = (state: State) => {
-    // if (state.isLoggedIn) {
-    //     window.location.assign('/');
-    // }
     return {
-        username: state.username,
-        password: state.password1,
-        isLoggedIn: state.isLoggedIn,
-        error: state.error
+        username: state.register.username,
+        password1: state.register.password1,
+        password2: state.register.password2,
+        error: state.register.error
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>) => {
     return {
         actions: bindActionCreators({
-            onRegister
+            onRegister,
+            onChangeUsername,
+            onChangePassword1,
+            onChangePassword2
         },                          dispatch)
     };
 };
