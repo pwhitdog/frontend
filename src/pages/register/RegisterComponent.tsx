@@ -66,7 +66,7 @@ class RegisterComponent extends React.Component<Props, State> {
     register() {
         if (this.state.username !== '' && this.state.password1 !== '' && this.state.password2 !== '') {
             if (this.state.password1 === this.state.password2) {
-                alert('yeah');
+                this.props.actions.onRegister({username: this.state.username, password: this.state.password1});
             }
         }
     }
@@ -108,6 +108,18 @@ class RegisterComponent extends React.Component<Props, State> {
     }
 }
 
+const mapStateToProps = (state: State) => {
+    // if (state.isLoggedIn) {
+    //     window.location.assign('/');
+    // }
+    return {
+        username: state.username,
+        password: state.password1,
+        isLoggedIn: state.isLoggedIn,
+        error: state.error
+    };
+};
+
 const mapDispatchToProps = (dispatch: Dispatch<{}>) => {
     return {
         actions: bindActionCreators({
@@ -116,4 +128,4 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>) => {
     };
 };
 
-export default connect(mapDispatchToProps)(RegisterComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);
