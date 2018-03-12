@@ -41,7 +41,7 @@ const LoginComponent = (props: LoginProps) => {
 
     const login = () => {
         props.actions.onLogin({username: props.username, password: props.password});
-        window.location.assign('/');
+        // window.location.assign('/');
     };
 
     return (

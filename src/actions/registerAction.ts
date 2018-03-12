@@ -1,7 +1,9 @@
 import { HANDLE_ERROR, SET_TOKEN } from '../constants';
+import { LoginResponse } from '../objects/loginResponseObject';
 
 export const onRegister = (obj: {password: string, username: string}) => {
-    return(dispatch: (obj: {type: string, error: string }) => void) => {
+    return(dispatch: (
+        obj: { type: string, token: string, error: string, roles: Array<string>, isLoggedIn: boolean }) => void) => {
         fetch('http://localhost:5000/api/Account/Register', {
             method: 'post',
             headers: {
@@ -12,9 +14,13 @@ export const onRegister = (obj: {password: string, username: string}) => {
         })
             .then(res => res.json())
             .then(body => {
+                const registerResponse: LoginResponse = JSON.parse(body);
                 return dispatch({
-                        type: SET_TOKEN,
-                        error: '',
+                    type: SET_TOKEN,
+                    token: registerResponse.Token,
+                    roles: registerResponse.Roles,
+                    error: '',
+                    isLoggedIn: true
                     }
                 );
             })
@@ -23,6 +29,9 @@ export const onRegister = (obj: {password: string, username: string}) => {
                 return dispatch({
                     type: HANDLE_ERROR,
                     error: error.toString(),
+                    roles: [],
+                    token: '',
+                    isLoggedIn: false
                 });
             });
     };

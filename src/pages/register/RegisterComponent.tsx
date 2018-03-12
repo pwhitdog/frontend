@@ -27,6 +27,7 @@ interface State {
         password1: string;
         password2: string;
         error: string;
+        isLoggedIn: boolean;
     };
 }
 
@@ -54,8 +55,69 @@ const RegisterComponent = (props: Props) => {
                 props.actions.onRegister({password: props.password1, username: props.username});
             }
 
-            window.location.assign('/');
+            // window.location.assign('/');
         }
+    };
+
+    const getPasswordError = () => {
+        let errorLength;
+        let errorNumber;
+        let errorSymbol;
+        if (props.password1 && props.password1.length < 6) {
+          errorLength = (
+              <div className="row">
+                  <div className="text-danger">Password length is too short.</div>
+              </div>
+          );
+      }
+        if (props.password1 && !/\d/.test(props.password1)) {
+          errorNumber = (
+              <div className="row">
+                  <div className="text-danger">Password must contain a number.</div>
+              </div>
+          );
+      }
+        if (props.password1 && !/[?!@#$%^&*)(+=._-]/.test(props.password1)) {
+            errorSymbol = (
+                <div className="row">
+                    <div className="text-danger">Password must contain a special char.</div>
+                </div>
+            );
+        }
+
+        return (
+            <div>
+                {errorLength}
+                {errorNumber}
+                {errorSymbol}
+            </div>
+        );
+    };
+
+    const getPasswordMatchError = () => {
+      if (props.password1 !== props.password2) {
+          return (
+              <div className="row">
+                  <div className="text-danger">Passwords do not match.</div>
+              </div>
+          );
+      }
+      return null;
+    };
+
+    const getEmailError = () => {
+        const regex1 = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))/;
+        const regex2 = /@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const regex = new RegExp(regex1.source + regex2.source);
+
+        if (props.username && !regex.test(props.username)) {
+            return (
+                <div className="row">
+                    <div className="text-danger">Please ensure the email format is correct.</div>
+                </div>
+            );
+        }
+        return null;
     };
 
     return (
@@ -72,6 +134,7 @@ const RegisterComponent = (props: Props) => {
                     onChange={changeUsername}
                 />
             </div>
+            {getEmailError()}
             <div className="row">
                 <label htmlFor="password1">Password</label>
                 <input
@@ -81,6 +144,7 @@ const RegisterComponent = (props: Props) => {
                     onChange={changePassword1}
                 />
             </div>
+            {getPasswordError()}
             <div className="row">
                 <label htmlFor="password2">Password</label>
                 <input
@@ -90,6 +154,7 @@ const RegisterComponent = (props: Props) => {
                     onChange={changePassword2}
                 />
             </div>
+            {getPasswordMatchError()}
             <div className="row">
                 <button className="btn btn-outline-primary mt-2" onClick={register}>Register</button>
             </div>
@@ -98,6 +163,9 @@ const RegisterComponent = (props: Props) => {
 };
 
 const mapStateToProps = (state: State) => {
+    if (state.register.isLoggedIn) {
+        window.location.assign('/');
+    }
     return {
         username: state.register.username,
         password1: state.register.password1,
